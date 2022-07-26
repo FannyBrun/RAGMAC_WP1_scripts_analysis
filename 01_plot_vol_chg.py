@@ -41,19 +41,19 @@ dh_dt_function_period(df_HEF,
 df_HEF = calculate_dist_to_val(df_HEF)
 
 
-##### for Aletsch group
-#df_ALE = pickle.load(open('df_ALE.pkl', "rb" ))
-#
-#df_ALE_ALE =  df_ALE[df_ALE['glacier_id']=='RGI60-11.01450']
-#df_ALE_ALE.index = range(len(df_ALE_ALE))
-#df_ALE_ISC =  df_ALE[df_ALE['glacier_id']=='RGI60-11.01346']
-#df_ALE_ISC.index = range(len(df_ALE_ISC))
-#df_ALE_MIT =  df_ALE[df_ALE['glacier_id']=='RGI60-11.01797']
-#df_ALE_MIT.index = range(len(df_ALE_MIT))
-#df_ALE_OBE =  df_ALE[df_ALE['glacier_id']=='RGI60-11.01827']
-#df_ALE_OBE.index = range(len(df_ALE_OBE))
-#df_ALE_LAN =  df_ALE[df_ALE['glacier_id']=='RGI60-11.01698']
-#df_ALE_LAN.index = range(len(df_ALE_LAN))
+#### for Aletsch group
+df_ALE = pickle.load(open('df_ALE.pkl', "rb" ))
+
+df_ALE_ALE =  df_ALE[df_ALE['glacier_id']=='RGI60-11.01450']
+df_ALE_ALE.index = range(len(df_ALE_ALE))
+df_ALE_ISC =  df_ALE[df_ALE['glacier_id']=='RGI60-11.01346']
+df_ALE_ISC.index = range(len(df_ALE_ISC))
+df_ALE_MIT =  df_ALE[df_ALE['glacier_id']=='RGI60-11.01797']
+df_ALE_MIT.index = range(len(df_ALE_MIT))
+df_ALE_OBE =  df_ALE[df_ALE['glacier_id']=='RGI60-11.01827']
+df_ALE_OBE.index = range(len(df_ALE_OBE))
+df_ALE_LAN =  df_ALE[df_ALE['glacier_id']=='RGI60-11.01698']
+df_ALE_LAN.index = range(len(df_ALE_LAN))
 #
 #dh_dt_function_period(df_ALE_ALE, 'ALE',datetime.datetime(2011, 9, 13),datetime.datetime(2017, 9, 21))
 #dh_dt_function_period(df_ALE_ISC, 'ISC',datetime.datetime(2011, 9, 13),datetime.datetime(2017, 9, 21))
