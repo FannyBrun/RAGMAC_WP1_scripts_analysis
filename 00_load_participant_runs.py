@@ -50,9 +50,9 @@ for participant in list_participants:
         data.columns = data.columns.str.replace(' ', '')
         data = data.rename(columns=dict_replacement)
         data = data.drop(data[np.isnan(data['dh_m'])].index)
-        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'])
+        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'], dayfirst = True)
         data['start_date_str'] = data['start_date'].dt.strftime('%Y-%m-%d')
-        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'])
+        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'], dayfirst = True)
         data['end_date_str'] = data['end_date'].dt.strftime('%Y-%m-%d')
         if participant == 'Validation':
             data['run_code'] = 'Validation'
@@ -107,9 +107,9 @@ for participant in list_participants:
 #        print(results_files[61:])
         data.columns = data.columns.str.replace(' ', '')
         data = data.rename(columns=dict_replacement)
-        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'])
+        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'], dayfirst = True)
         data['start_date_str'] = data['start_date'].dt.strftime('%Y-%m-%d')
-        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'])
+        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'], dayfirst = True)
         data['end_date_str'] = data['end_date'].dt.strftime('%Y-%m-%d')
         if participant == 'Validation':
             data['run_code'] = 'Validation'
@@ -175,9 +175,9 @@ for participant in list_participants:
 #        print(results_files[61:])
         data.columns = data.columns.str.replace(' ', '')
         data = data.rename(columns=dict_replacement)
-        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'])
+        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'], dayfirst = True)
         data['start_date_str'] = data['start_date'].dt.strftime('%Y-%m-%d')
-        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'])
+        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'], dayfirst = True)
         data['end_date_str'] = data['end_date'].dt.strftime('%Y-%m-%d')
         if participant == 'Validation':
             data['run_code'] = 'Validation'
@@ -229,6 +229,9 @@ df_VES_STS =  df_VES[df_VES['glacier_id']=='RGI60-08.01641']
 df_VES_STS.index = range(len(df_VES_STS))
 
 
+list_keys = ['participant','run_id','glacier_id', 'run_code', 'S_km2', 'start_date_yyyy-mm-dd',
+       'end_date_yyyy-mm-dd', 'dh_m', 'dh_sigma_m', 'dV_km3',
+       'dV_sigma_km3', 'start_date', 'end_date', 'color', 'sensor','start_date_str', 'end_date_str', 'period']
 
 ### for Baltoro
 df_BAL = pd.DataFrame(columns=list_keys)
@@ -242,9 +245,10 @@ for participant in list_participants:
         data.columns = data.columns.str.replace(' ', '')
         data = data.rename(columns=dict_replacement)
         data = data.drop(data[np.isnan(data['dh_m'])].index)
-        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'])
+        data['period'] = 'period1'
+        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'], dayfirst = True)
         data['start_date_str'] = data['start_date'].dt.strftime('%Y-%m-%d')
-        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'])
+        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'], dayfirst = True)
         data['end_date_str'] = data['end_date'].dt.strftime('%Y-%m-%d')
 
         data['run_id'] = participant + ' - ' + data['run_code']
@@ -255,6 +259,9 @@ for participant in list_participants:
             data['dV_km3'] = data['dh_m']*data['S_km2']*1e-3
             data['dV_sigma_km3'] = data['dh_sigma_m']*data['S_km2']*1e-3
 #        print(data['dh_m'])
+        if participant == 'Bolch':
+            data['dV_sigma_km3'] = data['dh_95_CR_m']*data['S_km2']*1e-3
+            data['dV_km3'] = data['dh_m']*data['S_km2']*1e-3
         
         if sensor_dic[participant] == 'ask':
             if participant == 'Florentine':
@@ -276,9 +283,10 @@ for participant in list_participants:
         data.columns = data.columns.str.replace(' ', '')
         data = data.rename(columns=dict_replacement)
         data = data.drop(data[np.isnan(data['dh_m'])].index)
-        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'])
+        data['period'] = 'period2'
+        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'], dayfirst = True)
         data['start_date_str'] = data['start_date'].dt.strftime('%Y-%m-%d')
-        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'])
+        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'], dayfirst = True)
         data['end_date_str'] = data['end_date'].dt.strftime('%Y-%m-%d')
 
         data['run_id'] = participant + ' - ' + data['run_code']
@@ -288,6 +296,11 @@ for participant in list_participants:
         if (data['run_id'] == 'Florentine - CTL').any():
             data['dV_km3'] = data['dh_m']*data['S_km2']*1e-3
             data['dV_sigma_km3'] = data['dh_sigma_m']*data['S_km2']*1e-3
+        
+        if participant == 'Bolch':
+            data['dV_sigma_km3'] = data['dh_95_CR_m']*data['S_km2']*1e-3
+            data['dV_km3'] = data['dh_m']*data['S_km2']*1e-3
+
 #        print(data['dh_m'])
         
         if sensor_dic[participant] == 'ask':
@@ -322,7 +335,7 @@ with open('df_BAL.pkl', 'wb') as handle:
 
 
 
-### for Baltoro
+### for NPI
 df_NPI = pd.DataFrame(columns=list_keys)
 list_participants = list(dic_NPI_period1.keys())
 
@@ -334,9 +347,10 @@ for participant in list_participants:
         data.columns = data.columns.str.replace(' ', '')
         data = data.rename(columns=dict_replacement)
         data = data.drop(data[np.isnan(data['dh_m'])].index)
-        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'])
+        data['period'] = 'period1'
+        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'], dayfirst = True)
         data['start_date_str'] = data['start_date'].dt.strftime('%Y-%m-%d')
-        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'])
+        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'], dayfirst = True)
         data['end_date_str'] = data['end_date'].dt.strftime('%Y-%m-%d')
 
         data['run_id'] = participant + ' - ' + data['run_code']
@@ -347,6 +361,7 @@ for participant in list_participants:
             data['dV_km3'] = data['dh_m']*data['S_km2']*1e-3
             data['dV_sigma_km3'] = data['dh_sigma_m']*data['S_km2']*1e-3
 #        print(data['dh_m'])
+
         
         if sensor_dic[participant] == 'ask':
             if participant == 'Florentine':
@@ -368,9 +383,10 @@ for participant in list_participants:
         data.columns = data.columns.str.replace(' ', '')
         data = data.rename(columns=dict_replacement)
         data = data.drop(data[np.isnan(data['dh_m'])].index)
-        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'])
+        data['period'] = 'period2'
+        data['start_date'] = pd.to_datetime(data['start_date_yyyy-mm-dd'], dayfirst = True)
         data['start_date_str'] = data['start_date'].dt.strftime('%Y-%m-%d')
-        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'])
+        data['end_date'] = pd.to_datetime(data['end_date_yyyy-mm-dd'], dayfirst = True)
         data['end_date_str'] = data['end_date'].dt.strftime('%Y-%m-%d')
 
         data['run_id'] = participant + ' - ' + data['run_code']
@@ -381,6 +397,7 @@ for participant in list_participants:
             data['dV_km3'] = data['dh_m']*data['S_km2']*1e-3
             data['dV_sigma_km3'] = data['dh_sigma_m']*data['S_km2']*1e-3
 #        print(data['dh_m'])
+
         
         if sensor_dic[participant] == 'ask':
             if participant == 'Florentine':
